@@ -15,4 +15,8 @@ public class Room {
 
     private String name;
     private int capacity;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Booking booking;
 }

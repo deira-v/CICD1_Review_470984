@@ -25,7 +25,7 @@ Only one POST created not fully working.
 **Evidence from the original code:**  
 No JPQL search.
 
-**Total self-assessed original examination mark: 20/100**
+**Total self-assessed original examination mark: 20 / 100**
 
 **Checkpoint:** Commit this completed self-assessment as the **first review commit in your new repository**, before you modify or add application code. The lecturer decides the official original examination mark.
 
