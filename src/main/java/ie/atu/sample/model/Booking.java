@@ -1,8 +1,6 @@
 package ie.atu.sample.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -18,13 +16,18 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "bookings")
 public class Booking {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @NotBlank
     @Size(min = 2, max = 60)
     private String organizerName;
     @Positive
-    private BigDecimal attendeeCount;
+    private int attendeeCount;
 
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
 }
