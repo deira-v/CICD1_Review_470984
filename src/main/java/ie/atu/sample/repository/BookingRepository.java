@@ -4,4 +4,5 @@ import ie.atu.sample.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
+    Long roomId(Long roomId);
 }
