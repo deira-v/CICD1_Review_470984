@@ -3,17 +3,16 @@ package ie.atu.sample.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
-@Data
-public class BookingRequestDTO {
+public record BookingRequestDTO(
     @NotBlank
     @Size(min = 2, max = 60)
-    private String organizerName;
+    String organizerName,
 
     @Positive
-    private int attendeeCount;
+    int attendeeCount,
 
     @Positive
-    private Long roomId;
-}
+    Long roomId
+)
+{}
