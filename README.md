@@ -10,22 +10,30 @@
 Review the code **as submitted in the original examination**. Do not change the original repository, branch or pull request. Check your own Group A or Group B examination paper and award marks only for evidence present in the original submission.
 
 ### Task 1 — /40
-**My mark: 15 / 40**  
+**My mark: 25 / 40**  
 **Evidence from the original code (files, methods, working or missing requirements):**  
-Implemented booking Entity; Sping boot Annotation and field Validation. 
-DTO class created.
+Created booking model storing variables for RoomId, organizer name, status and attendee count(should have been an int not a bigDecimal); missing status.  
+Correctly used SpringBoot annotation and field validation for variables, getters and setters.  
+Only request DTO class created, storing variables for Room instead of Booking.  
+Return of Jpa Entity instead of DTO.
 
 ### Task 2 — /40
-**My mark: 5 / 40**  
+**My mark: 10 / 40**  
 **Evidence from the original code:**
-Only one POST created not fully working.
+Only one POST created not fully working.  
+No need for RoomController and RoomService Classes.  
+Right approach of Constructor Dependency Injection in Booking Service.  
+Not converting entities into RequestDTO and not throwing errors for invalid requests.  
+In BookingController correct injection of BookingService; Validation missing and request of a JPA Entity rather than a DTO.  
+
+
 
 ### Task 3 — /20
 **My mark: 0 / 20**  
 **Evidence from the original code:**  
 No JPQL search.
 
-**Total self-assessed original examination mark: 20 / 100**
+**Total self-assessed original examination mark: 35 / 100**
 
 **Checkpoint:** Commit this completed self-assessment as the **first review commit in your new repository**, before you modify or add application code. The lecturer decides the official original examination mark.
 
@@ -36,8 +44,13 @@ Start from a **fresh copy of the starter template for your own exam group**, in 
 Describe **two or three important problems** in your original code. For each, explain what was wrong, which class or method you changed in the new project, and why the corrected approach works.
 
 **Problem and correction 1:**  
+Missing ResponseDTO and RequestDTO not fully implemented.  
+The old version of the exam was missing Validation in the RequestDTO class and had no ResponseDTO class.  
+The new approach works because data can be securely transferred between layers without being exposed.  
 
 **Problem and correction 2:**  
+Wrong approach to Get and Post.
+Trying to save booking without checking room capacity.
 
 **Problem and correction 3 (optional):**  
 
@@ -47,21 +60,39 @@ Use Swagger UI or another HTTP client. For **at least four meaningful checks**, 
 
 **Test 1 — successful booking request:**  
 - Request / input:  
-- Expected:  
-- Actual HTTP status / body:  
-- Pass / fail:  
+{
+  "organizerName": "Deira",
+  "attendeeCount": 10,
+  "roomId": 1
+  }
+- Expected: 201
+- Actual HTTP status / body: 201  
+{
+"attendeeCount": 10,
+"id": 3,
+"organizerName": "Deira",
+"roomId": 1,
+"roomName": "Lab 201",
+"status": "ACTIVE"
+}
+- Pass / fail: pass  
 
 **Test 2 — invalid input or excessive attendee count:**  
 - Request / input:  
-- Expected:  
-- Actual HTTP status / body:  
-- Pass / fail:  
+  {
+  "organizerName": "Deira",
+  "attendeeCount": 30,
+  "roomId": 1
+  }
+- Expected: 400
+- Actual HTTP status / body: 400 Bad Request
+- Pass / fail:  fail
 
 **Test 3 — missing booking or room:**  
-- Request / input:  
-- Expected:  
-- Actual HTTP status / body:  
-- Pass / fail:  
+- Request / input: look for booking Id 5
+- Expected: 404
+- Actual HTTP status / body: 404 Not Found  
+- Pass / fail: fail
 
 **Test 4 — requirement specific to my group:**  
 - Request / input:  
@@ -76,20 +107,23 @@ Use Swagger UI or another HTTP client. For **at least four meaningful checks**, 
 ## 4. Reflection
 
 **What did I understand during the examination but struggle to implement?**  
+The JPA ManyToOne relationship
 
 **Which Spring Boot, JPA, validation, JPQL or OpenFeign concept became clearer after correcting my code? Give a specific example.**  
+The DTO separation concept.  
 
 **What will I do differently in my next coding test or API development task?**  
+Review Labs and ask for clarifications during lab time if something isn't clear to me.
 
 ## Review lab assessment — 20 marks
 
-- Honest original self-assessment with code evidence: **4 marks**
-- Explanation of mistakes and Spring Boot concepts: **6 marks**
+- Honest original self-assessment with code evidence: **3 marks**
+- Explanation of mistakes and Spring Boot concepts: **4 marks**
 - Corrections in the new application: **4 marks**
-- API testing and demonstration of understanding: **4 marks**
-- Reflection and future improvement: **2 marks**
+- API testing and demonstration of understanding: **3 marks**
+- Reflection and future improvement: **1 marks**
 
-**Total: 20 marks.** Simply submitting a working solution does not demonstrate the learning required by this review.
+**Total: 15 marks.** Simply submitting a working solution does not demonstrate the learning required by this review.
 
 ## Proposed mark recovery — only if confirmed for CICD-1
 

@@ -23,9 +23,21 @@ public class BookingService {
         this.roomRepository = roomRepository;
     }
 
-    public List<Booking> getBookings() {
-        return repository.findAll();
+    //Convert Booking Entities into BookingResponseDTO
+    private BookingResponseDTO toResponseDTO(Booking booking) {
+
+        BookingResponseDTO response = new BookingResponseDTO();
+
+        response.setId(booking.getId());
+        response.setOrganizerName(booking.getOrganizerName());
+        response.setAttendeeCount(booking.getAttendeeCount());
+        response.setRoomId(booking.getRoom().getId());
+        response.setRoomName(booking.getRoom().getName());
+        response.setStatus(booking.getStatus());
+
+        return response;
     }
+
 
     public BookingResponseDTO reserveRoom(BookingRequestDTO request) {
 
@@ -56,26 +68,28 @@ public class BookingService {
         //save the booking and pass it to responseDTO
         Booking savedBooking = repository.save(booking);
 
-        BookingResponseDTO response = new BookingResponseDTO();
-
-        response.setId(savedBooking.getId());
-        response.setOrganizerName(savedBooking.getOrganizerName());
-        response.setAttendeeCount(savedBooking.getAttendeeCount());
-        response.setRoomId(room.getId());
-        response.setRoomName(room.getName());
-        response.setStatus(savedBooking.getStatus());
-
-        return response;
+        return toResponseDTO(savedBooking);
 
     }
 
-
-    public Booking getBookingById(Long id) {
-        return repository.findById(id)
+    //retrieve bookings and handle errors
+    public BookingResponseDTO getBookingById(Long id) {
+        Booking booking = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Booking not found"
                 ));
+        return toResponseDTO(booking);
     }
+
+
+    public List<BookingResponseDTO> searchBookings(String roomName) {
+
+        return repository.findBookingsByRoomName(roomName)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
 
 }
